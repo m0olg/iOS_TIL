@@ -1,25 +1,27 @@
 ## DI
-# 01 `DI`란?
-→ Dependency Injection의 약자로 클래스 내부에서 필요한 객체의 인스턴스를, 클래스 내부에서 생성하는 게 아니라 외부에서 생성한 뒤 이니셜라이저 또는 setter를 통해 내부로 주입받는 것 \
-이 때 이니셜 라이저의 타입은 프로토콜을 활용해서 내부에선 프로토콜 메서드를 사용
 
-DI는 의존성을 클래스에 **주입**시키는 것이고 **의존성 분리**의 조건을 만족해야함
+<BR>
+
+# 01 `DI`란?
+→ Dependency Injection의 약자로 <MARK>클래스가 내부에서 직접 생성하던 객체를 외부에서 생성한 뒤 전달</MARK>받는 설계 방식
+
+
+<U>즉, 클래스가 필요한 객체를 직접 만들지 않고 외부</U>에 맡김
+
+<BR>
+<BR>
 
 # 02 의존성
 클래스 A, B가 있다고 하고 클래스 B의 값이 바뀔 때 클래스 A의 값도 함께 바뀌게 된다면 이 때 **클래스 A는 B에게 의존성을 갖는다**고 말함
 
 > 발로란트를 예시로 들면 ⬇️⬇️
 ```swift
-class Agent {
-    let name : String
-    init (name : String) {
-        self.name = name
-    }
-}
-
+// 발로란트에서 플레이어가 특정 요원을 사용하는 상황
+//
 // 에이전트 클래스
 class Agent {
     let name : String
+
     init (name : String) {
         self.name = name
     }
@@ -27,20 +29,272 @@ class Agent {
 
 // 플레이어 클래스
 class Player {
-    let xqPoint : XqPoint
-    let xpPoint : XpPoint
+    let agent : Agent
 
-    // 클래스 내부에서 XqPoint, XpPoint 인스턴스를 생성
     init() {
-        self.xqPoint = XqPoint (name : "클로브")
-        self.xpPoint = XpPoint (name : "제트")
+        // 플레이어가 Agnet를 직접 생성
+        self.agnet = Agnet(name : "클로브")
+    }
+}
+```
+```swift
+let player = Player()
+print(player.agent.name) // 클로브
+```
+이 코드에서 `Player`는 `Agent`에 의존하고 있음 \
+왜냐면 `Player` 내부에서 직접 `Agnet` 객체를 생성하고 있기 때문임
+`self.agnet = Agent(name : "클로브")`
+
+
+즉, `Player`는 다음과 같은 내용을 알고 있음
+* 사용해야 할 클래스가 `Agnet`라는 것
+* `Agent`를 생성하는 방법
+* 생성할 때 "클로브"라는 이름을 전달해야하는 것
+이처럼 한 클래스가 다른 클래스의 구체적인 생성 방식까지 알고 있으면 두 클래스 결합도가 높다고 말함
+
+<BR>
+<BR>
+
+# 03 주입이란?
+→ Injection은 필요한 객체를 외부에서 전달하는 것을 의미
+
+DI에선 보통 다음 3가지 방식으로 의존성을 주입 가능함
+    1. 이니셜 라이저 주입
+    2. 프로퍼티 주입
+    3. 메서드 주입
+
+## 3-1 이니셜 라이저 주입
+> 가장 일반적이고 권장되는 방식임
+
+객체를 생성할 때 필요한 의존성을 이니셜라이저의 매개변수로 전달 !!
+```swift
+class Agent {
+    let name : String
+
+    init (name : String) {
+        self.name = name
     }
 }
 
-let 
+class Player {
+    let agent : Agent
+
+    init (agent : Agent) {
+        self.anget = anget
+    }
+}
+
+let agent = Agent (name : "클로브")
+let player = Player (agnet : agnet)
+```
+`Player`는 `Agent`를 직접 생성하지 않고 외부에서 전달 받음
+
+### 🍀 장점
+    1. 필요한 의존성이 무엇인지 명확
+    2. 객체가 생성될 때부터 완전한 상태를 가짐
+    3. `let`으로 선언할 수 있어 안정적
+    4. 의존성이 누락된 객체를 만들기 어려움
+    5. 테스트하기 쉬움
+    ```swift
+    let testAgnet = Agnet (name : "test 에이전트")
+    let testPlayer = Player (anget : testAgent)
+    ```
+
+
+## 3-2 프로퍼티 주입
+객체를 먼저 생성한 후 프로퍼티에 의존성을 전달하는 방식
+```swift
+class Player {
+    var agent: Agent?
+
+    init() {}
+}
+
+let player = Player()
+player.agent = Agent(name: "제트")
+```
+### 🍀 장점
+    1. 의존성을 나주엥 주입할 수 있음
+    2. 의존성이 선택적인 경우 사용할 수 있음
+
+
+### 😈 단점
+    1. 의존성이 주입되지 않은 상태로 객체가 만들어질 수 있음
+    2. 옵셔널을 사용해야 하는 경우가 많음
+    3. 언제 주입되는지 추적하기 어려움
+
+> 따라서 **반드시 필요한 의존성**이라면 프로퍼티 주입보다 **이니셜라이저 주입**이 적합함 !!
+
+
+## 3-3 메서드 주입
+특정 메서드를 호출할 때 의존성을 전달하는 방식
+```SWIFT
+class PongPingManager {
+    func startPongPing(with agent: Agent) {
+        print("\(agent.name)레이즈의폭탄파티쇼시작")
+    }
+}
+
+let manager = BattleManager()
+let agent = Agent(name: "레이즈")
+
+manager.startPongPing(with: agent)
+```
+> 이 방식은 의존성이 특정 기능을 실행할 때만 필요한 경우 적합함
+
+<BR>
+<BR>
+
+# 04 의존성 분리
+### 의존성 분리가 머냐🤔🤔 <sub>`Player`가 특정 클래스인 `Agent`에 직접 의존하지 않고 프로토콜에 의존하면 에이전트를 쉽게 바꿀 수 있는걸 의존성 분리라고 함!
+
+```swift
+protocol AgentType {
+    var name: String { get }
+}
 ```
 
+```swift
+class Player {
+    let agent: AgentType
 
-# 03 주입
-# 04 의존성 분리
+    init(agent: AgentType) {
+        self.agent = agent
+    }
+}
+```
+
+이제 `Player`를 수정하지 않고도 다른 에이전트를 사용할 수 있따
+
+```swift
+class MockAgent: AgentType {
+    let name = "테스트 에이전트"
+}
+
+let player = Player(agent: MockAgent())
+```
+
+#### 핵심⭐⭐⭐
+- 에이전트 교체가 쉬워짐
+- 테스트용 객체를 넣기 쉬워짐
+- 클래스 간 결합도가 낮아짐
+- 다른 클래스의 변경이 `Player`에 미치는 영향이 줄어듦
+
+<BR>
+<BR>
+
+
+
+<details open>
+<summary><H3>⬆ 프로토콜 관련 의존성 분리 방법</summary>
+
+`Player`가 특정 클래스인 `Agent`가 아니라, **프로토콜인 `AgentType`에 의존하도록 만드는 것**
+
+```swift
+protocol AgentType {
+    var name: String { get }
+    func useSkill()
+}
+```
+
+에이전트가 프로토콜을 채택
+
+```swift
+class Agent: AgentType {
+    let name: String
+
+    init(name: String) {
+        self.name = name
+    }
+
+    func useSkill() {
+        print("\(name)이 스킬을 사용합니다.")
+    }
+}
+```
+
+`Player`는 `Agent`가 아닌 `AgentType`을 받음
+
+```swift
+class Player {
+    let agent: AgentType
+
+    init(agent: AgentType) {
+        self.agent = agent
+    }
+}
+```
+
+이제 `Player`는 특정 에이전트 클래스에 묶이지 않고 `AgentType`을 채택한 객체라면 모두 사용할 수 있음
+
+```swift
+let agent = Agent(name: "클로브")
+let player = Player(agent: agent)
+```
+
+</details>
+
+<BR>
+<BR>
+<BR>
+
 # 05 `IOC COntainer`
+>### IoC란?
+>제어의 역전은 객체를 생성하고 연결하는 책임을 클래스가 직접 갖지 않고 외부의 관리 주체가 담당하는 것을 의미
+
+일반적인 구조에서는 클래스가 필요한 객체를 직접 생성
+
+```swift
+class Player {
+    let agent: Agent
+
+    init() {
+        self.agent = Agent(name: "클로브")
+    }
+}
+```
+이 경우 객체 생성의 제어권이 Player에게 있음
+
+반면 IoC 구조에서는 외부에서 객체를 만들고 연결
+
+```swift
+let agent = Agent(name: "클로브")
+let player = Player(agent: agent)
+```
+
+이제 Player는 Agent의 생성 책임을 갖지 않음
+
+<BR>
+<BR>
+
+# 06 `DIP`
+>### DIP란?
+> DIP(Dependency Inversion Principle)는 다음을 의미
+
+고수준 모듈은 저수준 모듈에 직접 의존하지 않고 둘 다 추상화에 의존해야 함
+
+쉽게 말하면 클래스가 구체적인 클래스에 바로 의존하지 않고 프로토콜에 의존하도록 만드는 원칙이ㅣㅁ
+
+<BR>
+<BR>
+
+# 07 표로 서로의 관계 한눈에 보기
+
+| 개념 | 의미 |
+| :--- | :---: |
+| **DI** (Dependency Injection) | 필요한 의존성을 외부에서 주입하는 방법 |
+| **IoC** (Inversion of Control) | 객체 생성과 제어의 책임을 외부로 넘기는 개념 |
+| **IoC Container** | 객체 생성과 연결을 관리하는 도구 또는 객체 |
+| **DIP** (Dependency Inversion Principle) | 구체적인 구현보다 추상화에 의존해야 한다는 설계 원칙 |
+
+> DIP를 지키기 위해 프로토콜을 사용하고 DI로 의존성을 주입하며 IoC Container로 객체 생성과 연결을 관리할 수 있음
+
+<BR>
+<BR>
+
+# 08 정리
+* DI는 필요한 객체를 클래스 내부에서 직접 생성하지 않고 외부에서 주입 받는 방식
+* 의존성은 한 객체의 변경이 다른 객체에 영향을 주는 관계
+* 가장 기본적인 DI 방식은 이니셜라이저 주입
+* IoC는 객체 생성과 제어의 책임을 외부로 넘기는 개념
+* DI는 DIP를 구현하기 위한 대표적인 방법임
