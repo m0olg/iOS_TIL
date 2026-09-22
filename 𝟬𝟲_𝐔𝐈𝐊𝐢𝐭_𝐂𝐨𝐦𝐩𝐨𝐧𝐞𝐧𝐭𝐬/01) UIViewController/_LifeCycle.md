@@ -298,5 +298,5 @@ class MainViewController: UIViewController {
 - `push`와 `pop`은 내비게이션 기반 화면 전환에 사용
 - `UIView`는 화면의 구성 요소이고, `UIViewController`는 화면과 생명주기를 관리하는 객체
 
-> ### ⇒ `UIViewController`는 화면의 UI, 생명주기, 사용자 입력, 화면 전환을 관리하는 iOS의 핵심 클래스 ✨**
+> ### ⇒ `UIViewController`는 화면의 UI, 생명주기, 사용자 입력, 화면 전환을 관리하는 iOS의 핵심 클래스 ✨
 >
