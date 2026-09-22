@@ -33,6 +33,7 @@ final class PostService {
     private init() {}
     // ++ 외부에서 추가로 인스턴스를 생성하지 못하게 초기화 함수를 private로 제한
 
+    // 따로 빌드 관리하는 파일이 있음
     private let baseURL = "https://jsonplaceholder.typicode.com/posts" 
    // BaseURL을 Let으로 선언한 이유는 서버 주소는 변경되지 않는 고정된 값이므로
    
