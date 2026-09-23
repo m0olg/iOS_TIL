@@ -1,4 +1,7 @@
 ## 코드 분석 🍎
+
+<br>
+
 # 01 `static let shared`
 ```swift
 static let shared = SnackStore()
@@ -13,13 +16,16 @@ NetworkMaanager.shared
 `static`은 타입 자체에 속하는 프로퍼티를 만듦 \
 따라서 객체를 먼저 생성하지 않고 클래스 이름으로 접근 가능함 ( = `SnackStore.shared` 요러케)
 
+<br>
+<br>
+
 # 02 `pravate init()`
 ```swift
 private init() {
     snacks = ["밥", "토스트", "모몽가"]
 }
 ```
-생성자를 `private`으로 설정하면 외부에서 새로운 간식 창고를 만들 수 있음
+생성자를 `private`으로 설정하면 <mark>외부에서 새로운 인스턴스를 만들 수 없음 !!
 
 ```swift
 let newStore = SnackStore() // 오류
@@ -29,12 +35,18 @@ let newStore = SnackStore() // 오류
 let networkMaanager = NetworkManager.shared
 ```
 
+<br>
+<br>
+
 # 03 `final class`
 ```swift
 // 싱글톤 관리자가 상속되어 다른 인스턴스를 만드는 상황을 방지 가능함
 final class SnackStore
 ```
 final은 해당 클래스를 상속할 수 없도록 함
+
+<br>
+<br>
 
 
 # 04 `praivate(set)`
@@ -50,6 +62,9 @@ SnackStore.shared.takeSnack()
 SnackStore.shared.addSnack("도토리")
 ```
 > 실제 상황에선 로그인 상태를 외부에서 무분별하게 막 바꾸지 못하도록 메서드를 통해서만 변경하게 만들 수 있음
+
+<br>
+<br>
 
 # 05 예시로 알아보기
 ```swift
@@ -76,6 +91,8 @@ if let snack = SnackStore.shared.takeSnack() {
 SnackStore.sharedd.addSnack("곰돌이젤리")
 ```
 
+<br>
+<br>
 
 
 # 06 동일한 인스턴스인지 확인
@@ -181,6 +198,9 @@ let testViewModel = LoginViewModel(
 ```
 이렇게 하면 실제 서버에 요청하지 않고도 로그인 로직을 테스트 가능함
 
+<br>
+<br>
+
 # 10 싱글톤을 사용하면 왜 좋을까???????
 다음과 같이 앱 전체에서 하나만 존재하는 것이 자연스러운 객체에 사용 가능 <sup><sup><sup>이것도 개념에서 쓴거랑 비슷한 개념이라........ 그냥 훑어보기
 ```swift
@@ -198,6 +218,9 @@ final class AppSettings {
 
 다만 네트워크 관리자나 DB 관리자처럼 테스트에서 교체해야하는 객체라면 의존성 주입을 함께 고려하는 게 좋음
 
+<br>
+<br>
+
 # 11 핵심 코드
 ```swfit
 final class Singleton {
@@ -209,6 +232,9 @@ final class Singleton {
 
 > **사용법** : `Singleton.shared`
 > 실제 상황에서는 `NetworkManager.shared`, `SessionManager.shared`처럼 앱 전체에서 공유하는 관리자 객체에 적용할 수 있음
+
+<br>
+<br>
 
 # 12 정리
 * 스유에선 싱글톤을 다음과 같이 구현
