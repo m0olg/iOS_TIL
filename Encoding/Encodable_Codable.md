@@ -581,3 +581,165 @@ let user = try decoder.decode(
 
 <br>
 <br>
+
+# 14 `Encoding`과 `Decoding`에서 발생하는 오류
+
+`Encoding`과 `Decoding`은 실패할 수 있기 때문에 `try`를 사용해야 함
+
+```swift
+let data = try JSONEncoder().encode(user)
+```
+
+```swift
+let user = try JSONDecoder().decode(
+    User.self,
+    from: data
+)
+```
+
+오류를 처리하려면 `do-catch`를 사용할 수 있음
+
+```swift
+do {
+    let user = try JSONDecoder().decode(
+        User.self,
+        from: data
+    )
+
+    print(user.name)
+} catch {
+    print(error)
+}
+```
+
+Decoding 오류의 주요 원인
+
+* JSON 키 이름과 Swift 프로퍼티 이름이 다름
+* JSON 타입과 Swift 타입이 다름
+* 필수 프로퍼티가 JSON에 없음
+* JSON 형식이 올바르지 않음
+* 중첩된 JSON 구조와 Swift 모델 구조가 다름
+
+
+<br>
+<br>
+
+
+
+
+
+# 15 `Encoding` 오류
+
+<mark>Encoding은 Swift 객체를 JSON으로 변환하는 과정에서 발생하는 오류 !!!!!!!!!!!!!!!!!!!!
+
+```swift
+let data = try JSONEncoder().encode(user)
+```
+
+대부분의 기본 타입은 자동으로 Encoding할 수 있음
+
+하지만 직접 만든 타입이 `Encodable`을 지원하지 않거나, 커스텀 Encoding 과정에서 문제가 발생하면 오류가 생길 수 있음
+
+```swift
+struct User {
+    let name: String
+}
+```
+
+위 타입은 `Encodable`을 채택하지 않았기 때문에 다음 코드를 사용할 수 없음
+
+```swift
+let data = try JSONEncoder().encode(user)
+```
+
+다음처럼 `Encodable`을 채택해야 함
+
+```swift
+struct User: Encodable {
+    let name: String
+}
+```
+
+
+<br>
+<br>
+
+
+
+
+
+# 16 `Decoding` 오류
+
+Decoding 오류는 JSON Data를 Swift 객체로 변환하지 못했을 때 발생함
+
+예를 들어 JSON이 다음과 같다고 해보자
+
+```json
+{
+  "name": "Kim",
+  "age": "20"
+}
+```
+
+그런데 Swift 모델에서 `age`를 `Int`로 선언하면 오류가 발생함
+
+```swift
+struct User: Decodable {
+    let name: String
+    let age: Int
+}
+```
+
+JSON의 `age`는 문자열인 `"20"`이고 Swift에서는 `Int`를 기대하기 때문임
+
+JSON과 Swift 타입이 일치하도록 수정해야 함
+
+```json
+{
+  "name": "Kim",
+  "age": 20
+}
+```
+
+
+
+<br>
+<br>
+
+
+
+
+# 17 `Encoding`과 `Decoding` 정리
+
+```text
+[Encoding]
+
+Swift 객체
+    ↓ JSONEncoder
+JSON Data
+    ↓
+서버로 전송
+
+
+[Decoding]
+
+서버에서 JSON Data 수신
+    ↓ JSONDecoder
+Swift 객체
+    ↓
+앱에서 사용
+```
+
+각 요소의 역할
+
+| 요소 | 역할 |
+| :--- | :--- |
+| `Encodable` | Swift 객체를 외부 데이터로 변환할 수 있도록 함 |
+| `Decodable` | 외부 데이터를 Swift 객체로 변환할 수 있도록 함 |
+| `JSONEncoder` | Swift 객체를 JSON Data로 변환 |
+| `JSONDecoder` | JSON Data를 Swift 객체로 변환 |
+| `Data` | 네트워크나 파일 처리에 사용되는 데이터 형태 |
+| `CodingKeys` | Swift 프로퍼티와 JSON 키를 연결 |
+
+
+
