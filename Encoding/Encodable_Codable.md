@@ -741,5 +741,21 @@ Swift 객체
 | `Data` | 네트워크나 파일 처리에 사용되는 데이터 형태 |
 | `CodingKeys` | Swift 프로퍼티와 JSON 키를 연결 |
 
+<br>
+<br>
 
+# 18 정리
 
+* `Encoding`은 Swift 객체를 JSON이나 Data로 변환하는 과정
+* `Decoding`은 JSON이나 Data를 Swift 객체로 변환하는 과정
+* `JSONEncoder`는 Encoding을 담당함
+* `JSONDecoder`는 Decoding을 담당함
+* `Data`는 네트워크 통신이나 파일 저장에 사용되는 데이터 형태
+* 서버에 데이터를 보낼 때는 Swift 객체를 JSON Data로 변환해야 함
+* 서버에서 데이터를 받을 때는 JSON Data를 Swift 객체로 변환해야 함
+* `keyEncodingStrategy`는 Swift 키를 JSON 키로 변환하는 방식을 설정함
+* `keyDecodingStrategy`는 JSON 키를 Swift 키로 변환하는 방식을 설정함
+* Encoding과 Decoding은 실패할 수 있으므로 오류 처리가 필요함
+* JSON의 키와 타입이 Swift 모델과 일치해야 Decoding할 수 있음
+
+> ### ⇒ `Encoding`은 앱의 Swift 객체를 서버나 저장소에서 사용할 수 있는 데이터로 변환하는 과정이고, `Decoding`은 외부 데이터를 다시 앱에서 사용할 수 있는 Swift 객체로 변환하는 과정 🍀
