@@ -1,4 +1,4 @@
-## Encoding & Decoding
+## Encoding
 
 <br>
 
