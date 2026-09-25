@@ -398,3 +398,183 @@ JSON Data
 서버로 전송
 ```
 
+# 10 네트워크 통신에서의 `Decoding`
+
+서버에서 받은 응답 데이터는 JSON Data 형태임
+
+이를 앱에서 사용할 수 있는 Swift 객체로 변환해야 함
+
+```swift
+struct User: Decodable {
+    let name: String
+    let age: Int
+}
+```
+
+```swift
+let (data, _) = try await URLSession.shared.data(
+    for: request
+)
+
+let user = try JSONDecoder().decode(
+    User.self,
+    from: data
+)
+
+print(user.name)
+```
+
+```text
+서버 응답 Data
+    ↓
+JSONDecoder
+    ↓
+User 객체
+```
+
+이렇게 변환된 `User` 객체를 화면에 표시하거나 앱의 다른 로직에서 사용할 수 있음
+
+
+
+
+
+
+
+
+
+# 11 `camelCase`와 `snake_case`
+
+Swift에서는 일반적으로 프로퍼티 이름을 `camelCase`로 작성함
+
+```swift
+struct User {
+    let userName: String
+}
+```
+
+하지만 서버에서는 JSON 키를 `snake_case`로 보내는 경우가 있음
+
+```json
+{
+  "user_name": "Kim"
+}
+```
+
+Swift 프로퍼티와 JSON 키의 이름이 다르면 Decoding에 실패할 수 있음
+
+이때 `keyDecodingStrategy`를 사용할 수 있음
+
+```swift
+struct User: Decodable {
+    let userName: String
+}
+
+let decoder = JSONDecoder()
+decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+let user = try decoder.decode(
+    User.self,
+    from: data
+)
+```
+
+`user_name`을 Swift 프로퍼티인 `userName`으로 자동 변환해줌
+
+
+
+
+
+
+
+
+
+# 12 `keyEncodingStrategy`
+
+Swift 프로퍼티를 JSON으로 변환할 때도 이름 변환 방식을 설정할 수 있음
+
+```swift
+struct User: Encodable {
+    let userName: String
+}
+```
+
+기본적으로는 다음과 같은 JSON이 만들어짐
+
+```json
+{
+  "userName": "Kim"
+}
+```
+
+서버가 `snake_case` 형식을 요구한다면 다음과 같이 설정할 수 있음
+
+```swift
+let encoder = JSONEncoder()
+
+encoder.keyEncodingStrategy = .convertToSnakeCase
+
+let data = try encoder.encode(user)
+```
+
+변환 결과
+
+```json
+{
+  "user_name": "Kim"
+}
+```
+
+`camelCase` 프로퍼티를 `snake_case` JSON 키로 변환해줌
+
+
+
+
+
+
+
+
+
+# 13 `keyDecodingStrategy`
+
+서버에서 `snake_case` 형식의 JSON을 받을 때 사용할 수 있음
+
+서버 JSON
+
+```json
+{
+  "user_name": "Kim"
+}
+```
+
+Swift 모델
+
+```swift
+struct User: Decodable {
+    let userName: String
+}
+```
+
+```swift
+let decoder = JSONDecoder()
+
+decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+let user = try decoder.decode(
+    User.self,
+    from: data
+)
+```
+
+`user_name`을 Swift 프로퍼티인 `userName`으로 자동 변환해줌
+
+정리하면 다음과 같음
+
+| 전략 | 역할 |
+| :--- | :--- |
+| `.convertToSnakeCase` | Swift의 `camelCase`를 JSON의 `snake_case`로 변환 |
+| `.convertFromSnakeCase` | JSON의 `snake_case`를 Swift의 `camelCase`로 변환 |
+
+
+
+
+
