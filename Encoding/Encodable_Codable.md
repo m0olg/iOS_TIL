@@ -34,9 +34,9 @@ struct User {
 <mark>`User` 객체를 JSON으로 변환하는 과정이 `Encoding`임
 
 
+<br>
 
-
-
+<br>
 
 
 
@@ -75,8 +75,8 @@ print(user.age)
 ```
 
 
-
-
+<br>
+<br>
 
 
 
@@ -112,8 +112,8 @@ Swift 객체로 변환
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -162,8 +162,8 @@ let decoder = JSONDecoder()
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -204,12 +204,12 @@ print(String(data: data, encoding: .utf8)!)
 {"name":"Kim","age":20}
 ```
 
-단, `JSONEncoder`를 사용하려면 해당 타입이 `Encodable`을 채택하고 있어야 함
+> 단 `JSONEncoder`를 사용하려면 해당 타입이 `Encodable`을 채택하고 있어야 함
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -251,8 +251,8 @@ print(user.age)
 
 
 
-
-
+<br>
+<br>
 
 
 
