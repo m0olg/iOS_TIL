@@ -398,6 +398,9 @@ JSON Data
 서버로 전송
 ```
 
+<br>
+<br>
+
 # 10 네트워크 통신에서의 `Decoding`
 
 서버에서 받은 응답 데이터는 JSON Data 형태임
@@ -436,8 +439,8 @@ User 객체
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -482,8 +485,8 @@ let user = try decoder.decode(
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -528,8 +531,8 @@ let data = try encoder.encode(user)
 
 
 
-
-
+<br>
+<br>
 
 
 
@@ -576,5 +579,5 @@ let user = try decoder.decode(
 
 
 
-
-
+<br>
+<br>
