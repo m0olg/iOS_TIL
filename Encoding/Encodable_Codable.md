@@ -280,3 +280,121 @@ Data
 ```
 
 `Data`는 사람이 읽기 위한 형태라기보다는 앱과 서버가 데이터를 주고받기 위한 형태에 가까움
+
+<br>
+<br>
+
+# 08 `Encoding`과 `Decoding`의 전체 흐름
+
+## 8-1 `Encoding` 흐름
+
+```swift
+struct User: Encodable {
+    let name: String
+    let age: Int
+}
+
+let user = User(
+    name: "Kim",
+    age: 20
+)
+
+let data = try JSONEncoder().encode(user)
+```
+
+```text
+User 객체
+    ↓
+JSONEncoder
+    ↓
+JSON Data
+```
+
+## 8-2 `Decoding` 흐름
+
+```swift
+let user = try JSONDecoder().decode(
+    User.self,
+    from: data
+)
+```
+
+```text
+JSON Data
+    ↓
+JSONDecoder
+    ↓
+User 객체
+```
+
+전체 과정은 다음과 같음
+
+```text
+[Encoding]
+
+Swift 객체
+    ↓ JSONEncoder
+JSON Data
+    ↓ 네트워크 전송
+서버
+
+
+[Decoding]
+
+서버
+    ↓ JSON Data 응답
+JSON Data
+    ↓ JSONDecoder
+Swift 객체
+```
+
+
+
+<br>
+<br>
+
+
+
+
+
+# 09 네트워크 통신에서의 `Encoding`
+
+서버에 데이터를 보내려면 Swift 객체를 JSON Data로 변환한 뒤 HTTP Body에 넣어야 함
+
+```swift
+struct User: Encodable {
+    let name: String
+    let age: Int
+}
+
+let user = User(
+    name: "Kim",
+    age: 20
+)
+
+var request = URLRequest(
+    url: URL(string: "https://example.com/users")!
+)
+
+request.httpMethod = "POST"
+
+request.setValue(
+    "application/json",
+    forHTTPHeaderField: "Content-Type"
+)
+
+request.httpBody = try JSONEncoder().encode(user)
+```
+
+여기서 `httpBody`는 `Data` 타입을 받음
+
+따라서 `User` 객체를 `JSONEncoder`를 통해 `Data`로 변환해야 함
+
+```text
+User 객체
+    ↓ JSONEncoder
+JSON Data
+    ↓ httpBody
+서버로 전송
+```
+
