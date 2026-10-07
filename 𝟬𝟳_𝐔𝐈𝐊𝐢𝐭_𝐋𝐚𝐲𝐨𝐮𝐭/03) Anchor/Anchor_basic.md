@@ -4,7 +4,7 @@
 
 # 01 Anchor란?
 
-→ Anchor는 Auto Layout 제약 조건을 코드로 표현하는 방법
+→ <mark>Anchor는 Auto Layout 제약 조건을 코드로 표현</mark>하는 방법
 
 > 앵커를 사용하면 뷰의 위치, 크기, 중심을 다른 뷰와의 관계로 설정할 수 있음
 
