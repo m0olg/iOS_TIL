@@ -1,6 +1,6 @@
 ## multipart 기본 개념
 
-
+<br>
 
 
 ## 01 `multipart/form-data`란?
@@ -17,8 +17,8 @@ JSON은 글자나 숫자 같은 데이터를 주고받을 때 편하고 \
 `multipart/form-data`는 이미지·동영상 같은 **파일과 일반 데이터를 함께 보낼 때** 자주 사용함 !
 
 
-
-
+<br>
+<br>
 
 
 ## 02 왜 `multipart`라고 부를까?
@@ -60,8 +60,8 @@ Content-Type: image/jpeg
 - `boundary`: 각 부분을 구분하는 값
 
 
-
-
+<br>
+<br>
 
 
 ## 03 JSON과 `multipart/form-data` 비교
@@ -74,8 +74,8 @@ Content-Type: image/jpeg
 사진 없이 리뷰 텍스트만 보낸다면 JSON으로 충분함. 사진 파일까지 함께 보낼 때는 서버 API가 지원한다면 `multipart/form-data`를 사용
 
 
-
-
+<br>
+<br>
 
 
 ## 04 iOS에서는 어떻게 보내나요?
@@ -129,6 +129,8 @@ func uploadImage(
 위 예시는 이미지 파일 하나만 보내는 형태임 \
 리뷰 내용이나 별점도 같이 보낼 땐 이미지 부분과 같은 방식으로 텍스트 부분을 추가하면 됨
 
+<br>
+<br>
 
 
 
@@ -158,6 +160,8 @@ Content-Disposition: form-data; name="content"
 
 
 
+<br>
+<br>
 
 
 
@@ -173,6 +177,8 @@ Content-Disposition: form-data; name="content"
 - 실제 서비스 코드에서는 `!`로 강제 언래핑하기보다 데이터 변환 오류도 처리하는 편이 안전
 
 
+<br>
+<br>
 
 
 
@@ -189,6 +195,8 @@ Content-Disposition: form-data; name="content"
 텍스트 리뷰만 구현한다면 `multipart/form-data`가 필요하지 않을 수 있음
 
 
+<br>
+<br>
 
 
 
