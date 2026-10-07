@@ -5,9 +5,9 @@
 
 # 01 NSLayoutConstraint란?
 
-→ `NSLayoutConstraint`는 뷰의 위치와 크기 관계를 표현하는 제약 조건
+→ <mark>`NSLayoutConstraint`는 뷰의 위치와 크기 관계를 표현하는 제약 조건
 
-뷰의 너비, 높이, 다른 뷰와의 간격 등을 설정할 수 있음
+> 뷰의 너비, 높이, 다른 뷰와의 간격 등을 설정할 수 있음
 
 <br>
 <br>
