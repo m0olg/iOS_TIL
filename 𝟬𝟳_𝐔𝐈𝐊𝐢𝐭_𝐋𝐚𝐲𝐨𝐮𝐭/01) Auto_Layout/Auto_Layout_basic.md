@@ -4,7 +4,7 @@
 
 # 01 Auto Layout이란?
 
-→ Auto Layout은 뷰의 위치와 크기를 **제약 조건**으로 정하는 UIKit의 레이아웃 시스템
+→ <mark>Auto Layout은 뷰의 위치와 크기를 **제약 조건**</mark>으로 정하는 UIKit의 레이아웃 시스템
 
 화면 크기나 기기 방향이 달라져도 뷰 사이의 관계를 기준으로 위치와 크기를 계산함
 
@@ -86,6 +86,6 @@ NSLayoutConstraint.activate([
 # 05 정리
 
 - Auto Layout은 제약 조건으로 뷰의 위치와 크기를 정함
-- Frame 방식은 위치와 크기를 직접 지정함
+- Frame 방식은 위치와 크기를 직접 지정
 - Auto Layout은 다양한 화면 크기에 대응하기 좋음
-- 코드로 제약 조건을 설정할 때는 `translatesAutoresizingMaskIntoConstraints`를 `false`로 설정함
+- 코드로 제약 조건을 설정할 때는 `translatesAutoresizingMaskIntoConstraints`를 `false`로 설정
