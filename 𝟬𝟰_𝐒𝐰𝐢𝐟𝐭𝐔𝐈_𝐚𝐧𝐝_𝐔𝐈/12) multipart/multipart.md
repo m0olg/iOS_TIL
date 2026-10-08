@@ -78,7 +78,7 @@ Content-Type: image/jpeg
 <br>
 
 
-## 04 iOS에서는 어떻게 보내나요?
+## 04 iOS에서는 어떻게 보낼까>????
 
 iOS에서는 `URLSession`으로 요청을 만들고, 요청 본문에 `multipart/form-data` 형식의 데이터를 직접 구성해 담을 수 있음
 
