@@ -1,17 +1,19 @@
 ## 스택 뷰
 
+<br>
+
 # 01 UIStackView란?
 
 → `UIStackView`는 여러 뷰를 가로 또는 세로 방향으로 배열하는 UIKit 컨테이너 뷰
 
-안에 넣은 뷰들의 배열 방향과 간격을 관리함
+안에 넣은 뷰들의 배열 방향과 간격을 관리
 
 <br>
 <br>
 
 # 02 Stack View 만들기
 
-`axis`로 뷰가 배열될 방향을 설정함
+`axis`로 뷰가 배열될 방향을 설정
 
 ```swift
 let stackView = UIStackView()
@@ -31,36 +33,12 @@ stackView.addArrangedSubview(UIButton())
 
 # 03 주요 설정
 
-|
- 속성 
-|
- 역할 
-|
-|
-:---
-|
-:---
-|
-|
-`axis`
-|
- 뷰를 배열할 방향 
-|
-|
-`spacing`
-|
- 뷰 사이의 간격 
-|
-|
-`alignment`
-|
- Stack View의 축에 수직인 방향으로 정렬 
-|
-|
-`distribution`
-|
- Stack View의 축 방향으로 크기를 배분 
-|
+| 속성 | 역할 |
+|:---|:---:|
+| `axis` | 뷰를 배열할 방향 |
+| `spacing` | 뷰 사이의 간격 |
+| `alignment` | Stack View의 축에 수직인 방향으로 정렬 |
+| `distribution` | Stack View의 축 방향으로 크기를 배분 |
 
 <br>
 <br>
@@ -79,7 +57,7 @@ stackView.addArrangedSubview(titleLabel)
 stackView.addSubview(titleLabel)
 ```
 
-Stack View의 배열과 간격 관리를 받으려면 `addArrangedSubview`를 사용함
+Stack View의 배열과 간격 관리를 받으려면 `addArrangedSubview`를 사용
 
 <br>
 <br>
