@@ -51,7 +51,7 @@ stackView.addArrangedSubview(UIButton())
 stackView.addArrangedSubview(titleLabel)
 ```
 
-`addSubview`는 뷰를 일반적인 하위 뷰로 추가함
+`addSubview`는 뷰를 일반적인 하위 뷰로 추가
 
 ```swift
 stackView.addSubview(titleLabel)
