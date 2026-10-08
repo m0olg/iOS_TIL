@@ -4,7 +4,7 @@
 
 # 01 UIStackView란?
 
-→ `UIStackView`는 여러 뷰를 가로 또는 세로 방향으로 배열하는 UIKit 컨테이너 뷰
+→ <mark>`UIStackView`는 여러 뷰를 가로 또는 세로 방향으로 배열하는 UIKit 컨테이너 뷰
 
 안에 넣은 뷰들의 배열 방향과 간격을 관리
 
