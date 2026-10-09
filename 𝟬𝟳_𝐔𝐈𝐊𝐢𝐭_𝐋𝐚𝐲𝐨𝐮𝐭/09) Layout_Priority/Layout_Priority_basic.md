@@ -49,3 +49,26 @@ NSLayoutConstraint.activate([
 
 <br>
 <br>
+
+# 04 콘텐츠에 따라 크기가 달라지는 예시
+
+레이블의 문자열이나 글꼴이 바뀌면 필요한 크기도 달라질 수 있음
+
+```swift
+label.text = "짧은 문장"
+label.text = "조금 더 긴 문장으로 체인지"
+```
+
+문자열이 길어지면 필요한 너비도 달라짐 !
+
+다만, 화면의 너비처럼 다른 제약 조건이 있으면 텍스트가 여러 줄로 표시되거나 잘릴 수 있음
+
+<br>
+<br>
+
+# 05 정리
+
+- Intrinsic Content Size는 콘텐츠를 표시하는 데 필요한 뷰의 기본 크기
+- `UILabel`의 크기는 문자열과 글꼴에 영향을 받음
+- Auto Layout은 Intrinsic Content Size를 참고해 뷰의 크기를 계산
+- 콘텐츠나 글꼴이 바뀌면 필요한 크기도 달라질 수 있음
