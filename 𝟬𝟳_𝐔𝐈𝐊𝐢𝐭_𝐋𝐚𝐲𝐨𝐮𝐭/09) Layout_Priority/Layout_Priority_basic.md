@@ -4,7 +4,7 @@
 
 # 01 Intrinsic Content Size란?
 
-→ Intrinsic Content Size는 뷰가 가진 콘텐츠를 표시하기 위해 필요한 기본 크기
+→ <mark>Intrinsic Content Size는 뷰가 가진 콘텐츠를 표시하기 위해 필요한 기본 크기
 
 예를 들어 `UILabel`은 글자와 글꼴에 따라 필요한 너비와 높이가 정해짐
 
