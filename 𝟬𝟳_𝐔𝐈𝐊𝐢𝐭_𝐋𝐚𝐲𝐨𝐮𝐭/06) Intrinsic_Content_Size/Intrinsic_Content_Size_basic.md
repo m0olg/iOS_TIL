@@ -58,3 +58,10 @@ label.setContentHuggingPriority(
 
 <br>
 <br>
+
+# 05 정리
+
+- Content Hugging Priority는 뷰가 콘텐츠보다 커지는 것을 피하려는 정도를 나타냄
+- 우선순위가 높을수록 콘텐츠 크기를 유지하려는 성향이 강함
+- 여러 뷰 사이에서 남는 공간을 어떻게 나눌지에 영향을 줌
+- 가로와 세로 방향별로 우선순위를 설정할 수 있음
