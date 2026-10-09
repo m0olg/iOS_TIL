@@ -50,3 +50,11 @@ label.setContentHuggingPriority(
 <br>
 
 # 04 Compression Resistance와의 차이
+
+| 우선순위 | 뷰가 피하려는 상황 |
+|:---|:---|
+| Content Hugging | 콘텐츠 크기보다 커지는 것 |
+| Compression Resistance | 콘텐츠 크기보다 작아지는 것 |
+
+<br>
+<br>
