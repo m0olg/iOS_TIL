@@ -48,3 +48,5 @@ label.setContentHuggingPriority(
 
 <br>
 <br>
+
+# 04 Compression Resistance와의 차이
