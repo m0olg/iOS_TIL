@@ -4,7 +4,7 @@
 
 # 01 Content Hugging Priority란?
 
-→ Content Hugging Priority는 뷰가 콘텐츠 크기보다 커지는 것을 얼마나 피하려는지 나타내는 우선순위
+→ <mark>Content Hugging Priority는 뷰가 콘텐츠 크기보다 커지는 것을 얼마나 피하려는지 나타내는 우선순위
 
 <br>
 <br>
