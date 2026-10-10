@@ -4,7 +4,7 @@
 
 # 01 Layout Priority란?
 
-→ Layout Priority는 여러 제약 조건이 동시에 만족되기 어려울 때 어떤 제약 조건을 우선할지 정하는 값
+→ <mark>Layout Priority는 여러 제약 조건이 동시에 만족되기 어려울 때 어떤 제약 조건을 우선</mark>할지 정하는 값
 
 Auto Layout은 제약 조건을 가능한 한 만족시키려고 함
 
