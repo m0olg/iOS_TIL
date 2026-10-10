@@ -54,10 +54,10 @@ label.setContentCompressionResistancePriority(
 
 두 우선순위는 반대되는 상황에서 작동함
 
-```text
-Content Hugging → 뷰가 콘텐츠보다 커지는 것을 피함
-Compression Resistance → 뷰가 콘텐츠보다 작아지는 것을 피함
-```
+
+> Content Hugging → 뷰가 콘텐츠보다 커지는 것을 피함 /
+> Compression Resistance → 뷰가 콘텐츠보다 작아지는 것을 피함
+
 
 <br>
 <br>
