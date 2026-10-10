@@ -1,74 +1,72 @@
-## 콘텐츠 고유 크기
+## 레이아웃 우선순위
 
 <br>
 
-# 01 Intrinsic Content Size란?
+# 01 Layout Priority란?
 
-→ <mark>Intrinsic Content Size는 뷰가 가진 콘텐츠를 표시하기 위해 필요한 기본 크기
+→ Layout Priority는 여러 제약 조건이 동시에 만족되기 어려울 때 어떤 제약 조건을 우선할지 정하는 값
 
-예를 들어 `UILabel`은 글자와 글꼴에 따라 필요한 너비와 높이가 정해짐
+Auto Layout은 제약 조건을 가능한 한 만족시키려고 함
 
 <br>
 <br>
 
-# 02 기본 크기가 있는 뷰
+# 02 우선순위의 범위
 
-일부 UIKit 뷰는 콘텐츠를 기준으로 기본 크기를 가짐
+제약 조건의 우선순위는 `1`부터 `1000` 사이의 값으로 설정함
 
-예를 들어 `UILabel`은 표시할 문자열과 글꼴을 바탕으로 크기가 계산됨
+- 우선순위가 높을수록 제약 조건이 더 중요하게 적용됨
+- 우선순위가 낮은 제약 조건은 다른 제약 조건과 충돌할 때 무시될 수 있음
+- `1000`은 필수 제약 조건을 의미함
+
+<br>
+<br>
+
+# 03 우선순위 설정하기
+
+제약 조건을 만들 때 우선순위를 설정할 수 있음
 
 ```swift
-let label = UILabel()
-label.text = "ㅎㅇ"
-label.font = .systemFont(ofSize: 20)
+let widthConstraint = boxView.widthAnchor.constraint(
+    equalToConstant: 200
+)
+
+widthConstraint.priority = UILayoutPriority(750)
+widthConstraint.isActive = true
 ```
 
-이 레이블의 고유 크기는 텍스트와 글꼴에 따라 달라짐
+`UILayoutPriority`를 사용해 우선순위 값을 지정
 
 <br>
 <br>
 
-# 03 Auto Layout에서의 역할
+# 04 우선순위가 다른 제약 조건
 
-Auto Layout은 제약 조건과 Intrinsic Content Size를 이용해 뷰의 크기를 계산
+아래 예시에서 너비 `200`은 우선순위가 `750`인 제약 조건
 
-너비와 높이를 별도로 지정하지 않아도 콘텐츠에 맞는 크기로 표시될 수 있음
+더 높은 우선순위의 제약 조건과 충돌하면 너비가 `200`이 아닐 수도 있음
 
 ```swift
-label.translatesAutoresizingMaskIntoConstraints = false
-label.text = "ㅎㅇ"
-label.font = .systemFont(ofSize: 20)
+let widthConstraint = boxView.widthAnchor.constraint(
+    equalToConstant: 200
+)
 
-NSLayoutConstraint.activate([
-    label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-    label.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
-])
+widthConstraint.priority = UILayoutPriority(750)
 ```
 
-위 예시에서는 위치만 제약 조건으로 설정하고, 레이블의 크기는 콘텐츠를 기준으로 정해짐
-
-<br>
-<br>
-
-# 04 콘텐츠에 따라 크기가 달라지는 예시
-
-레이블의 문자열이나 글꼴이 바뀌면 필요한 크기도 달라질 수 있음
+반드시 지켜야 하는 조건이라면 기본 우선순위인 `.required`를 사용할 수 있음 !
 
 ```swift
-label.text = "짧은 문장"
-label.text = "조금 더 긴 문장으로 체인지"
+widthConstraint.priority = .required
 ```
-
-문자열이 길어지면 필요한 너비도 달라짐 !
-
-다만, 화면의 너비처럼 다른 제약 조건이 있으면 텍스트가 여러 줄로 표시되거나 잘릴 수 있음
 
 <br>
 <br>
 
 # 05 정리
 
-- Intrinsic Content Size는 콘텐츠를 표시하는 데 필요한 뷰의 기본 크기
-- `UILabel`의 크기는 문자열과 글꼴에 영향을 받음
-- Auto Layout은 Intrinsic Content Size를 참고해 뷰의 크기를 계산
-- 콘텐츠나 글꼴이 바뀌면 필요한 크기도 달라질 수 있음
+- Layout Priority는 제약 조건의 중요도를 나타냄
+- 우선순위는 `1`부터 `1000` 사이의 값으로 설정
+- 우선순위가 높을수록 제약 조건이 우선 적용
+- `1000` 또는 `.required`는 필수 제약 조건을 의미
+- 우선순위가 낮은 제약 조건은 더 높은 우선순위의 조건과 충돌할 때 적용되지 않을 수 있음
