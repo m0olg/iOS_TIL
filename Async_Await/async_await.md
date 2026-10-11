@@ -146,3 +146,55 @@ struct SisaView: View {
 ```
  
 `.task`는 화면이 사라지면 작업을 자동으로 취소해주는 장점이 있음
+
+# 06 `async let`
+ 
+→ `async let`은 서로 관련 없는 비동기 작업을 동시에 실행하고 싶을 때 사용함
+ 
+`await`를 순서대로 쓰면 앞의 작업이 끝나야 다음 작업이 시작됨
+ 
+```swift
+// 순서대로 실행 : 총 시간 = 두 작업 시간의 합
+let sisa = try await fetchCharacter(id: 1)
+let usagi = try await fetchCharacter(id: 2)
+```
+ 
+`async let`을 사용하면 두 작업이 동시에 시작됨
+ 
+```swift
+// 동시에 실행 : 총 시간 = 더 오래 걸리는 작업 시간
+async let sisa = fetchCharacter(id: 1)
+async let usagi = fetchCharacter(id: 2)
+ 
+let characters = try await [sisa, usagi]
+```
+ 
+결과가 필요한 시점에 `await`로 한 번에 받으면 됨
+ 
+ 
+ 
+ 
+ 
+ 
+# 07 `@MainActor`
+ 
+→ `@MainActor`는 해당 코드가 반드시 메인 스레드에서 실행되도록 보장함
+ 
+UI를 바꾸는 코드는 메인 스레드에서 실행되어야 함
+ 
+`await` 이후에는 코드가 다른 스레드에서 이어질 수 있기 때문에 UI 관련 타입에는 `@MainActor`를 붙여줌
+ 
+```swift
+@MainActor
+final class CharacterViewModel: ObservableObject {
+    @Published var sisa: Character?
+ 
+    func load() async {
+        sisa = try? await fetchCharacter()
+    }
+}
+```
+ 
+`@MainActor`가 붙은 타입의 프로퍼티는 항상 메인 스레드에서 변경됨
+ 
+그래서 `DispatchQueue.main.async`를 직접 쓰지 않아도 됨
