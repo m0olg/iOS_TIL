@@ -1,4 +1,6 @@
 ## SwiftData and Keychain
+
+<br>
  
 # 01 `SwiftData`란?
  
@@ -20,8 +22,8 @@ SwiftData를 사용하면 별도의 데이터베이스 코드 없이 Swift 객�
 저장된 시사 객체 불러오기
 ```
  
- 
- 
+ <br>
+  <br>
  
  
  
@@ -51,8 +53,8 @@ class Character {
 저장하고 싶지 않은 프로퍼티가 있다면 `@Transient`를 붙여서 제외할 수 있음
  
  
- 
- 
+ <br>
+ <br>
  
  
 # 03 `ModelContainer`와 `ModelContext`
@@ -80,3 +82,7 @@ struct MyApp: App {
 ```
  
 데이터를 추가하거나 삭제하는 작업은 모두 `modelContext`를 통해 이루어짐
+
+ <br>
+ <br>
+
