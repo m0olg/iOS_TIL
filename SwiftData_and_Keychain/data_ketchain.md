@@ -248,4 +248,7 @@ let status = SecItemDelete(query as CFDictionary)
 * 비밀번호나 토큰 같은 민감한 정보는 Keychain에 저장해야 함
 
 * Keychain은 `SecItemAdd` · `SecItemCopyMatching` · `SecItemDelete`로 다룸
+
+<br>
+
 > ### ⇒ `SwiftData`와 `Keychain`은 시사의 정보처럼 일반 데이터는 SwiftData에, 토큰 같은 민감한 정보는 Keychain에 나눠서 안전하게 저장하는 방법임 ✨
