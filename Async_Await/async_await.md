@@ -4,7 +4,7 @@
  
 # 01 `SwiftData`란?
  
-→ SwiftData는 Swift 객체를 앱 안에 저장하고 불러올 수 있게 해주는 Apple의 데이터 저장 프레임워크
+<mark>→ SwiftData는 Swift 객체를 앱 안에 저장하고 불러올 수 있게 해주는 Apple의 데이터 저장 프레임워크
  
 앱을 껐다 켜도 데이터가 남아 있으려면 데이터를 기기에 저장해야 함
  
