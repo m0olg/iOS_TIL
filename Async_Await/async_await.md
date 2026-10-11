@@ -83,6 +83,140 @@ struct MyApp: App {
  
 데이터를 추가하거나 삭제하는 작업은 모두 `modelContext`를 통해 이루어짐
 
- <br>
- <br>
+<br>
+<br>
 
+# 04 저장 · 조회 · 삭제
+ 
+→ 저장은 `insert`, 조회는 `@Query`, 삭제는 `delete`를 사용함
+ 
+```swift
+struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var characters: [Character]
+ 
+    var body: some View {
+        List(characters) { character in
+            Text(character.name)
+        }
+ 
+        Button("시사 추가") {
+            let sisa = Character(name: "시사", favoriteFood: "라멘")
+            modelContext.insert(sisa)
+        }
+    }
+}
+```
+ 
+`@Query`는 저장된 데이터를 자동으로 가져오고 데이터가 바뀌면 뷰도 함께 갱신해줌 !!
+ 
+삭제할 때는 객체를 `delete`에 전달하면 됨
+ 
+```swift
+modelContext.delete(sisa)
+```
+ 
+SwiftData는 기본적으로 변경 사항을 자동 저장하지만 직접 저장하고 싶다면 `save`를 사용할 수 있음
+ 
+```swift
+try modelContext.save()
+```
+ 
+ 
+ 
+ 
+ 
+ 
+# 05 `Keychain`이란?
+ 
+→ Keychain은 비밀번호나 토큰 같은 민감한 정보를 암호화해서 안전하게 보관하는 iOS의 저장소
+ 
+로그인 후 받은 액세스 토큰을 일반 파일이나 `UserDefaults`에 저장하면 탈취당할 위험이 있음
+ 
+Keychain은 시스템이 암호화해서 관리하기 때문에 민감한 정보를 저장하기에 적합함
+ 
+```text
+액세스 토큰
+    ↓ Keychain
+암호화되어 안전하게 저장
+    ↓ 필요할 때
+꺼내서 서버 요청에 사용
+```
+ 
+또한 앱을 삭제했다가 다시 설치해도 Keychain에 저장한 값이 남아 있을 수 있음
+ 
+ 
+ 
+ 
+ 
+ 
+# 06 `Keychain` 사용하기
+ 
+→ Keychain은 딕셔너리 형태의 query를 만들어 `SecItem` 함수로 저장 · 조회 · 삭제함
+ 
+### 저장
+ 
+```swift
+let token = "sisa-access-token".data(using: .utf8)!
+ 
+let query: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrAccount as String: "accessToken",
+    kSecValueData as String: token
+]
+ 
+let status = SecItemAdd(query as CFDictionary, nil)
+```
+ 
+### 조회
+ 
+```swift
+let query: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrAccount as String: "accessToken",
+    kSecReturnData as String: true,
+    kSecMatchLimit as String: kSecMatchLimitOne
+]
+ 
+var result: AnyObject?
+let status = SecItemCopyMatching(query as CFDictionary, &result)
+ 
+if status == errSecSuccess, let data = result as? Data {
+    let token = String(data: data, encoding: .utf8)
+}
+```
+ 
+### 삭제
+ 
+```swift
+let query: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrAccount as String: "accessToken"
+]
+ 
+let status = SecItemDelete(query as CFDictionary)
+```
+ 
+`kSecAttrAccount`가 값을 구분하는 이름표 역할을 함
+ 
+결과는 `OSStatus`로 돌아오며 `errSecSuccess`면 성공임
+ 
+같은 이름표로 이미 저장된 값이 있으면 `SecItemAdd`가 실패하므로 값을 바꿀 때는 삭제 후 다시 저장하거나 `SecItemUpdate`를 사용함
+ 
+ 
+ 
+ 
+ 
+ 
+# 07 `SwiftData`와 `Keychain`의 차이
+ 
+→ 일반 데이터는 SwiftData에 민감한 정보는 Keychain에 저장함
+ 
+| 구분 | `SwiftData` | `Keychain` |
+| :--- | :--- | :--- |
+| 용도 | 앱의 일반 데이터 저장 | 비밀번호 · 토큰 같은 민감 정보 저장 |
+| 저장 단위 | Swift 객체 (`@Model`) | 작은 `Data` 값 |
+| 보안 | 일반 저장 | 시스템이 암호화해서 관리 |
+| 예시 | 시사의 이름 · 좋아하는 음식 | 로그인 액세스 토큰 |
+ 
+시사의 정보는 SwiftData에 저장하고 시사로 로그인하기 위한 토큰은 Keychain에 저장하는 식으로 나눠서 사용함
