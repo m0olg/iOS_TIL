@@ -223,3 +223,29 @@ let status = SecItemDelete(query as CFDictionary)
 | 예시 | 시사의 이름 · 좋아하는 음식 | 로그인 액세스 토큰 |
  
 시사의 정보는 SwiftData에 저장하고 시사로 로그인하기 위한 토큰은 Keychain에 저장하는 식으로 나눠서 사용함
+
+<br>
+<br>
+
+# 08 정리
+ 
+ 
+### [SwiftData and Keychain] ⬇️⬇️
+
+ 
+| 요소 | 역할 |
+| :--- | :--- |
+| `SwiftData` | Swift 객체를 기기에 저장하는 프레임워크 |
+| `@Model` | 클래스를 저장 가능한 모델로 만드는 매크로 |
+| `ModelContainer` | 데이터가 저장되는 저장소 |
+| `ModelContext` | 저장소에서 추가 · 삭제 · 저장을 수행하는 작업 공간 |
+| `@Query` | 저장된 데이터를 조회하고 변화를 반영 |
+| `Keychain` | 민감한 정보를 암호화해서 보관하는 저장소 |
+ 
+* SwiftData는 `@Model` 클래스를 그대로 기기에 저장할 수 있게 해줌
+* 데이터를 추가하거나 삭제할 때는 `ModelContext`를 사용함
+* `@Query`를 쓰면 저장된 데이터가 바뀔 때 화면이 자동으로 갱신됨
+* 비밀번호나 토큰 같은 민감한 정보는 Keychain에 저장해야 함
+
+* Keychain은 `SecItemAdd` · `SecItemCopyMatching` · `SecItemDelete`로 다룸
+> ### ⇒ `SwiftData`와 `Keychain`은 시사의 정보처럼 일반 데이터는 SwiftData에, 토큰 같은 민감한 정보는 Keychain에 나눠서 안전하게 저장하는 방법임 ✨
