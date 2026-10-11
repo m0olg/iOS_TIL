@@ -1,4 +1,6 @@
 ## Async/Await
+
+<br>
  
 # 01 `비동기 처리`란?
  
@@ -20,6 +22,8 @@
  
 이처럼 오래 걸리는 작업을 기다리면서도 앱이 멈추지 않게 해주는 것이 비동기 처리임
 
+<br>
+<br>
 
 # 02 `async/await`란?
  
@@ -47,7 +51,8 @@ let sisa = try await fetchCharacter()
 이때 스레드가 막히는 것이 아니라 다른 작업이 그 스레드를 사용할 수 있음
  
  
- 
+ <br>
+<br>
  
  
  
@@ -75,7 +80,8 @@ func fetchCharacter() async throws -> Character {
 이때 순서는 항상 `async` 다음에 `throws`임
  
  
- 
+ <br>
+<br>
  
  
  
@@ -107,7 +113,8 @@ func normalFunction() {
 이럴 때 사용하는 것이 `Task`임
  
  
- 
+ <br>
+<br>
  
  
  
@@ -147,6 +154,13 @@ struct SisaView: View {
  
 `.task`는 화면이 사라지면 작업을 자동으로 취소해주는 장점이 있음
 
+
+
+<br>
+<br>
+
+
+
 # 06 `async let`
  
 → `async let`은 서로 관련 없는 비동기 작업을 동시에 실행하고 싶을 때 사용함
@@ -173,7 +187,8 @@ let characters = try await [sisa, usagi]
  
  
  
- 
+ <br>
+<br>
  
  
 # 07 `@MainActor`
@@ -198,3 +213,7 @@ final class CharacterViewModel: ObservableObject {
 `@MainActor`가 붙은 타입의 프로퍼티는 항상 메인 스레드에서 변경됨
  
 그래서 `DispatchQueue.main.async`를 직접 쓰지 않아도 됨
+
+
+<br>
+<br>
